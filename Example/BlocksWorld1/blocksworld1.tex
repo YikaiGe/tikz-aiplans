@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+
+    \node[INIT] (init) at (0,0){};
+    \node[UNSTACK={A}{C}] (unstackAC) at (6,0) {};
+    \node[PUTDOWN={A}] (putdownA) at (12.5,0) {};
+    \node[PICKUP={A}] (pickupA) at (19,0) {};
+    \node[STACK={A}{B}] (stackAB) at (26,0) {};
+    \node[PICKUP={D}] (pickupD) at (33,0) {};
+    \node[STACK={D}{C}] (stackDC) at (40,0) {};
+    \node[GOAL] (goal) at (47,0){};
+
+
+
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm]  (init-eff-1) node [circle,fill,inner sep=0.1em]{} to [bend left]  (unstackAC-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-5) node [circle,fill,inner sep=0.1em]{} to [bend left] (unstackAC-pre-2) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-8) node [circle,fill,inner sep=0.1em]{} to[bend right] (unstackAC-pre-3) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (unstackAC-eff-2) node [circle,fill,inner sep=0.1em]{} to[bend left] (putdownA-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (putdownA-eff-1) node [circle,fill,inner sep=0.1em]{} to[bend left] (pickupA-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (putdownA-eff-3) node [circle,fill,inner sep=0.1em]{} to[bend right] (pickupA-pre-2) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (putdownA-eff-4) node [circle,fill,inner sep=0.1em]{} to[bend right] (pickupA-pre-3) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (pickupA-eff-2) node [circle,fill,inner sep=0.1em]{} to[bend left] (stackAB-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-6) node [circle,fill,inner sep=0.1em]{} to [bend left] (stackAB-pre-2) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (stackAB-eff-1) node [circle,fill,inner sep=0.1em]{} to[bend left] (pickupD-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-4) node [circle,fill,inner sep=0.1em]{} to[bend left] (pickupD-pre-2) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-7) node [circle,fill,inner sep=0.1em]{} to[bend right] (pickupD-pre-3) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (pickupD-eff-2) node [circle,fill,inner sep=0.1em]{} to[bend left] (stackDC-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (unstackAC-eff-5) node [circle,fill,inner sep=0.1em]{} to[bend right] (stackDC-pre-2) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (stackAB-eff-3) node [circle,fill,inner sep=0.1em]{} to[bend left] (goal-pre-1) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (stackDC-eff-3) node [circle,fill,inner sep=0.1em]{} to[bend left] (goal-pre-2) node [circle,fill,inner sep=0.1em]{};
+
+\end{tikzpicture}
+
+
