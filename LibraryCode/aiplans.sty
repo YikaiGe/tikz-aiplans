@@ -1,0 +1,157 @@
+% Author: Yikai Ge <geyikai912ATgmail.com>
+
+% Version: 2.1 (2025-02-27)
+% 
+% Change Log:
+% 2.0 -> 2.1
+% Converted the library into a .sty file,.
+% 1.0 -> 2.0 
+% - Improved stability and optimized the code.
+% - The spacing between labels is now automatically calculated and evenly distributed.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{aiplans}[2025/02/27 v2.1 A TikZ-Based Library for Drawing POCL Plans]
+
+% Load necessary packages and styles
+\RequirePackage{tikz}
+\RequirePackage{listofitems}
+
+% Load required TikZ libraries directly
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing, decorations.markings}
+
+
+
+% Name of Action/.styl n args={number of objects}{
+%         action={
+%             {number of preconditions},
+%             {number of effects},
+%             {preconditions},
+%             {effects},
+%             {precondition length},
+%             {effects length},
+%             {label of action},
+%             {position of label (0 for on top, other number for side)},
+%             {height of node}
+%         }
+%     }
+
+\tikzset{
+    action/.style n args={9}{
+        draw,
+        minimum width=3cm,
+        fill=cyan,
+        rounded corners,
+        minimum height={#9},
+        label={center:#7},
+        append after command={
+            \pgfextra{
+                % Define the node name
+                \edef\nodename{\tikzlastnode}
+                \ifx#3\empty % Check if label list is empty
+                \else % Process only if not empty
+                    % Read the label content
+                    \setsepchar{,}
+                    \readlist\nameparts{\nodename}
+                    \setsepchar{,}
+                    
+                    \ifnum#8=0\relax
+                    % Define positions for preconditions and effects relative to the node with shifts
+                        \ifnum#1>0
+                        \readlist\labellist{#3}
+                        \foreach \i in {1,...,#1} {
+                            % Precondition coordinates and lines
+                            \coordinate (\nodename-pre-\i) at ([xshift=-#5cm, yshift=(-\i + (#1 + 1)/2) * #9/#1] \nodename.west);
+                            \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [midway, above, sloped, font=\scriptsize] {\labellist[\i]};
+                        }
+                        \fi;
+                        \readlist\labellist{#4}
+                        \ifnum#2>0
+                        \foreach \j in {1,...,#2} {
+                            % Effect coordinates and lines
+                            \coordinate (\nodename-eff-\j) at ([xshift=#6cm, yshift=(-\j + (#2 + 1)/2) * #9/#2] \nodename.east);
+                            \draw (\nodename.east |- \nodename-eff-\j) -- +(#6,0) node [midway, above, sloped, font=\scriptsize] {\labellist[\j]};
+                        }
+                        \fi;
+                    \else
+                        \ifnum#1>0
+                        \readlist\labellist{#3}
+                        \foreach \i in {1,...,#1} {
+                            % Precondition coordinates and lines
+                            \coordinate (\nodename-pre-\i) at ([xshift=-#5 cm, yshift=(-\i + (#1 + 1)/2) * #9/#1] \nodename.west);
+                            \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [xshift=-(#5+0.5cm), sloped, font=\scriptsize]{\labellist[\i]};
+                        }
+                        \fi;
+                        \readlist\labellist{#4}
+                        \ifnum#2>0
+                        \foreach \j in {1,...,#2} {
+                            % Effect coordinates and lines
+                            \coordinate (\nodename-eff-\j) at ([xshift=#6 cm, yshift=(-\j + (#2 + 1)/2) * #9/#2] \nodename.east);
+                            \draw (\nodename.east |- \nodename-eff-\j) -- +(#6,0) node [xshift=(#5+0.5 cm), font=\scriptsize] {\labellist[\j]};
+                        }
+                        \fi;
+                    \fi;
+                \fi;
+            }
+        },
+        label content/.initial={#3}
+    }
+}
+
+% INIT/.styl={
+%     init={
+%         {number of effects},
+%         {effects},
+%         {effects length},
+%         {height of init}
+%         }
+%         }
+
+% GOAL/.styl={
+%   goal={
+%     {number of preconditons},
+%     {preconditons},
+%     {preconditons length},
+%     {height of goal}
+%     }
+%     }
+
+\tikzset{
+    base/.style n args={6}{
+        draw,
+        minimum width=0.05cm,
+        fill=black,
+        minimum height={#6},
+        append after command={
+            \pgfextra{
+                \edef\nodename{\tikzlastnode}
+                \setsepchar{,}
+                \readlist\labellist{#2}
+                \foreach \i in {1,...,#1} {
+                    \coordinate (\nodename-#5-\i) at ([xshift=#3 cm, yshift=(-\i + (#1)/2+0.25) * #6/#1] \nodename.#4);
+                    \draw (\nodename.#4 |- \nodename-#5-\i) -- +(#3,0)
+                        node [midway, above, sloped, font=\scriptsize] {\labellist[\i]};
+                }
+            }
+        }
+    }
+}
+
+
+\tikzset{
+    % Init style
+    init/.style n args={4}{
+        base={#1}{#2}{#3}{east}{eff}{#4}
+    }
+}
+
+\tikzset{
+    % Goal style
+    goal/.style n args={4}{
+        base={#1}{#2}{-#3}{west}{pre}{#4}
+    }
+}
+
+
+
+
