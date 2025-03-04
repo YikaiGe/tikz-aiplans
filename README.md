@@ -4,9 +4,7 @@
 
 ## Content
 
-- [Project Structure](#project-structure)
 - [License](#license)
-- [Future Improvements Plan](#future-improvements-plan)
 - [Contact Information](#contact-information)
 - [Team Members](#team-members)
 
@@ -14,7 +12,6 @@
 ### Explanation
 
 - **README**: This file provides an overview of the project, including installation instructions, system requirements, and other essential information.
-- **Generating TikZ Diagrams Using LaTeX**: Detailed instructions on how to use the TikZ library included in this package. It covers the steps needed to generate diagrams using LaTeX.
 - **tikzlibrary<aiplans>.code.tex**: The core of the project, this file contains the TikZ library specifically designed for generating AI plan diagrams. This package is crucial for the functionality provided by this project.
 - **License.txt**: The license file outlines the terms under which the package can be used, modified, and distributed.
 
@@ -27,7 +24,7 @@ This material is subject to the [LaTeX Project Public License 1.3c](https://ctan
 ## Contact Information
 If you have any questions, feedback, or suggestions regarding this project, please feel free to reach out to us. We are always happy to assist and appreciate your input.
 
-Email: geyikai912**AT**gmail.com
+Email: pascal.bercher -~AT~- anu.edu.au; geyikai912 -~AT~- gmail.com
 
 GitHub Issues: https://github.com/YikaiGe/tikz-aiplans/issues
 

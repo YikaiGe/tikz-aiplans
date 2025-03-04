@@ -8,10 +8,10 @@
 
 % Define action
 \tikzset{
-    INIT/.style={init={8}{gF,onT(B),onT(C),onT(D),clr(A),clr(B),clr(D),{on(A,C)}}{1}{8 cm}}, 
+    INIT/.style={init={8}{gF,onT(B),onT(C),onT(D),clr(A),clr(B),clr(D),{on(A,C)}}{1.2}{8 cm}}, 
     PICKUP/.style n args ={1}{STYLE={3}{4}{gF,onT(#1),clr(#1)}{$\neg$gF,gH(#1),$\neg$clr(#1),$\neg$onT(#1)}{PICKUP(#1)}},
     PUTDOWN/.style n args ={1}{STYLE={1}{4}{gH(#1)}{gF,$\neg$gH(#1),onT(#1),clr(#1)}{PUTDOWN(#1)}},
     STACK/.style n args ={2}{STYLE={2}{5}{gH(#1),clr(#2)}{gF,$\neg$gH(#1),onT{(#1,#2)},clr(#1),$\neg$clr(#2)}{STACK{(#1,#2)}}},
     UNSTACK/.style n args ={2}{STYLE={3}{5}{gF,clr(#2),on(#1)}{$\neg$gF,gH{(#1)},$\neg$on(#1),$\neg$clr(#1),clr(#1)}{UNSTACK{(#1,#2)}}},
-    GOAL/.style={goal={2}{{on(A,B)},{on(D,C)}}{1}{8 cm}}
+    GOAL/.style={goal={2}{{on(A,B)},{on(D,C)}}{1.2}{8 cm}}
 }

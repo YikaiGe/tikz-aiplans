@@ -8,7 +8,7 @@
 
 
 
-% Name of Action/.styl n args={number of objects}{
+% Name of Action/.style n args={number of objects}{
 %         action={
 %             {number of preconditions},
 %             {number of effects},
@@ -25,9 +25,9 @@
 \tikzset{
     action/.style n args={9}{
         draw,
+        rounded corners,
         minimum width=3cm,
         fill=cyan,
-        rounded corners,
         minimum height={#9},
         label={center:#7},
         append after command={
@@ -47,7 +47,7 @@
                         \readlist\labellist{#3}
                         \foreach \i in {1,...,#1} {
                             % Precondition coordinates and lines
-                            \coordinate (\nodename-pre-\i) at ([xshift=-#5cm, yshift=(-\i + (#1 + 1)/2) * #9/#1] \nodename.west);
+                            \coordinate (\nodename-pre-\i) at ([xshift=-#5cm, yshift=#9/2-#9/(#1+1)*(\i)] \nodename.west);
                             \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [midway, above, sloped, font=\scriptsize] {\labellist[\i]};
                         }
                         \fi;
@@ -55,7 +55,7 @@
                         \ifnum#2>0
                         \foreach \j in {1,...,#2} {
                             % Effect coordinates and lines
-                            \coordinate (\nodename-eff-\j) at ([xshift=#6cm, yshift=(-\j + (#2 + 1)/2) * #9/#2] \nodename.east);
+                            \coordinate (\nodename-eff-\j) at ([xshift=#6cm, yshift=#9/2-#9/(#2+1)*(\j)] \nodename.east);
                             \draw (\nodename.east |- \nodename-eff-\j) -- +(#6,0) node [midway, above, sloped, font=\scriptsize] {\labellist[\j]};
                         }
                         \fi;
@@ -64,7 +64,7 @@
                         \readlist\labellist{#3}
                         \foreach \i in {1,...,#1} {
                             % Precondition coordinates and lines
-                            \coordinate (\nodename-pre-\i) at ([xshift=-#5 cm, yshift=(-\i + (#1 + 1)/2) * #9/#1] \nodename.west);
+                            \coordinate (\nodename-pre-\i) at ([xshift=-#5 cm, yshift=#9/2-#9/(#1+1)*(\i)] \nodename.west);
                             \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [xshift=-(#5+0.5cm), sloped, font=\scriptsize]{\labellist[\i]};
                         }
                         \fi;
@@ -72,7 +72,7 @@
                         \ifnum#2>0
                         \foreach \j in {1,...,#2} {
                             % Effect coordinates and lines
-                            \coordinate (\nodename-eff-\j) at ([xshift=#6 cm, yshift=(-\j + (#2 + 1)/2) * #9/#2] \nodename.east);
+                            \coordinate (\nodename-eff-\j) at ([xshift=#6 cm, yshift=#9/2-#9/(#2+1)*(\j)] \nodename.east);
                             \draw (\nodename.east |- \nodename-eff-\j) -- +(#6,0) node [xshift=(#5+0.5 cm), font=\scriptsize] {\labellist[\j]};
                         }
                         \fi;
@@ -84,7 +84,7 @@
     }
 }
 
-% INIT/.styl={
+% INIT/.style={
 %     init={
 %         {number of effects},
 %         {effects},
@@ -93,7 +93,7 @@
 %         }
 %         }
 
-% GOAL/.styl={
+% GOAL/.style={
 %   goal={
 %     {number of preconditons},
 %     {preconditons},
@@ -114,7 +114,7 @@
                 \setsepchar{,}
                 \readlist\labellist{#2}
                 \foreach \i in {1,...,#1} {
-                    \coordinate (\nodename-#5-\i) at ([xshift=#3 cm, yshift=(-\i + (#1)/2+0.25) * #6/#1] \nodename.#4);
+                    \coordinate (\nodename-#5-\i) at ([xshift=#3 cm, yshift=#6/2-#6/(#1+1)*(\i)] \nodename.#4);
                     \draw (\nodename.#4 |- \nodename-#5-\i) -- +(#3,0)
                         node [midway, above, sloped, font=\scriptsize] {\labellist[\i]};
                 }
@@ -137,7 +137,6 @@
         base={#1}{#2}{-#3}{west}{pre}{#4}
     }
 }
-
 
 
 
