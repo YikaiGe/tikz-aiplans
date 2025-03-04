@@ -1,10 +1,16 @@
 \documentclass[border=1in]{standalone}
 \usepackage{tikz}
-\usetikzlibrary{aiplans} % This will load your library
+
+% we use the following line to be able to load the library
+% when it's in a different folder
+\input{../../LibraryCode/tikzlibraryaiplans.code.tex}
+
+% the following line is used when the library is in the same folder
+% \usetikzlibrary{aiplans}
 
 \begin{document}
 
 \input{blocksworld_domain}
-\input{blocksworld_plan}
+\input{blocksworld_plan2}
 
 \end{document}

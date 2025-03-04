@@ -7,6 +7,23 @@
 \usetikzlibrary{decorations.pathreplacing, decorations.markings}
 
 
+% this allows the definition of causal links, which place dots on the start and end of the link
+\tikzset{
+  causalLink/.style={
+    ->,
+    shorten <= 0.2cm,
+    shorten >= 0.1cm,
+    % automatically place circles at start and end
+    postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=at position 0 with {\node [circle, fill, inner sep=0.1em]{};},
+        mark=at position 1 with {\node [circle, fill, inner sep=0.1em]{};}
+      }
+    }
+  }
+}
 
 % Name of Action/.style n args={number of objects}{
 %         action={
@@ -64,7 +81,7 @@
                         \readlist\labellist{#3}
                         \foreach \i in {1,...,#1} {
                             % Precondition coordinates and lines
-                            \coordinate (\nodename-pre-\i) at ([xshift=-#5 cm, yshift=#9/2-#9/(#1+1)*(\i)] \nodename.west);
+                            \coordinate (\nodename-pre-\i) at ([xshift=-#5cm, yshift=#9/2-#9/(#1+1)*(\i)] \nodename.west);
                             \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [xshift=-(#5+0.5cm), sloped, font=\scriptsize]{\labellist[\i]};
                         }
                         \fi;
@@ -95,9 +112,9 @@
 
 % GOAL/.style={
 %   goal={
-%     {number of preconditons},
-%     {preconditons},
-%     {preconditons length},
+%     {number of preconditions},
+%     {preconditions},
+%     {preconditions length},
 %     {height of goal}
 %     }
 %     }
@@ -137,6 +154,3 @@
         base={#1}{#2}{-#3}{west}{pre}{#4}
     }
 }
-
-
-
