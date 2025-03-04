@@ -9,8 +9,6 @@
     \node[STACK={D}{C}] (stackDC) at (40,0) {};
     \node[GOAL] (goal) at (47,0){};
 
-
-
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm]  (init-eff-1) node [circle,fill,inner sep=0.1em]{} to [bend left]  (unstackAC-pre-1) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-5) node [circle,fill,inner sep=0.1em]{} to [bend left] (unstackAC-pre-2) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-8) node [circle,fill,inner sep=0.1em]{} to[bend right] (unstackAC-pre-3) node [circle,fill,inner sep=0.1em]{};
@@ -19,7 +17,7 @@
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (putdownA-eff-3) node [circle,fill,inner sep=0.1em]{} to[bend right] (pickupA-pre-2) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (putdownA-eff-4) node [circle,fill,inner sep=0.1em]{} to[bend right] (pickupA-pre-3) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (pickupA-eff-2) node [circle,fill,inner sep=0.1em]{} to[bend left] (stackAB-pre-1) node [circle,fill,inner sep=0.1em]{};
-    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-6) node [circle,fill,inner sep=0.1em]{} to [bend left] (stackAB-pre-2) node [circle,fill,inner sep=0.1em]{};
+    \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-6) node [circle,fill,inner sep=0.1em]{} to [bend right] (stackAB-pre-2) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (stackAB-eff-1) node [circle,fill,inner sep=0.1em]{} to[bend left] (pickupD-pre-1) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-4) node [circle,fill,inner sep=0.1em]{} to[bend left] (pickupD-pre-2) node [circle,fill,inner sep=0.1em]{};
     \draw [->, shorten <= 0.2cm, shorten >= 0.1cm] (init-eff-7) node [circle,fill,inner sep=0.1em]{} to[bend right] (pickupD-pre-3) node [circle,fill,inner sep=0.1em]{};
