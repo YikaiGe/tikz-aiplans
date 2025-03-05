@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+    \node[INIT]           (init) {};
+    \node[UNSTACK={A}{C}] (unstackAC) [right=3.5cm of init]      {};
+    \node[PUTDOWN={A}]    (putdownA)  [right=3.5cm of unstackAC] {};
+    \node[PICKUP={A}]     (pickupA)   [right=3.5cm of putdownA]  {};
+    \node[STACK={A}{B}]   (stackAB)   [right=3.5cm of pickupA]   {};
+    \node[PICKUP={D}]     (pickupD)   [right=3.5cm of stackAB]   {};
+    \node[STACK={D}{C}]   (stackDC)   [right=3.5cm of pickupD]   {};
+    \node[GOAL]           (goal)      [right=3.5cm of stackDC]   {};
+
+    \draw [causalLink, bend left]     (init-eff-1)      to (unstackAC-pre-1);
+    \draw [causalLink, bend left]     (init-eff-5)      to (unstackAC-pre-2);
+    \draw [causalLink, bend right]    (init-eff-8)      to (unstackAC-pre-3);
+    \draw [causalLink, bend left]     (unstackAC-eff-2) to (putdownA-pre-1);
+    \draw [causalLink, bend left]     (putdownA-eff-1)  to (pickupA-pre-1);
+    \draw [causalLink, bend right]    (putdownA-eff-3)  to (pickupA-pre-2);
+    \draw [causalLink, bend right]    (putdownA-eff-4)  to (pickupA-pre-3);
+    \draw [causalLink, bend left]     (pickupA-eff-2)   to (stackAB-pre-1);
+    \draw [causalLink, bend right]    (init-eff-6)      to (stackAB-pre-2);
+    \draw [causalLink, bend left]     (stackAB-eff-1)   to (pickupD-pre-1);
+    \draw [causalLink, bend left]     (init-eff-4)      to (pickupD-pre-2);
+    \draw [causalLink, bend right=20] (init-eff-7)      to (pickupD-pre-3);
+    \draw [causalLink, bend left]     (pickupD-eff-2)   to (stackDC-pre-1);
+    \draw [causalLink, bend right=20] (unstackAC-eff-5) to (stackDC-pre-2);
+    \draw [causalLink, bend left]     (stackAB-eff-3)   to (goal-pre-1);
+    \draw [causalLink, bend left]     (stackDC-eff-3)   to (goal-pre-2);
+\end{tikzpicture}
