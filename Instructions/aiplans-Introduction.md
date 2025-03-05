@@ -3,12 +3,12 @@
 You will need the following files:
 
 - `tikzlibraryaiplans.code.tex` (library code)
-- `main.tex` (the main document that compiles everything)
-- `domain.tex` (for defining TikZ styles)
-- `plan.tex`, such as `plan-blocksworld.tex` (in Example) 
+- `main.tex` (the main document)
+- `domain.tex` (for defining the action schemas)
+- `plan.tex` (the plan that uses the defined actions) 
 
 
-## Main LaTeX Document**
+## Main LaTeX Document
 
 Create a `main.tex` file that includes the domain file (such as `blocksworld_domain.tex`) and the specific plan file(s) (such as `blocksworld_plan.tex` in our example).
 
@@ -44,8 +44,8 @@ NameOfScheme /. style n args = {num of input parameters}
       {length of effects}
       % action name to display
       {action name}
-      % prec/eff label position (left/right vs. top/bottom)
-      {precondition/effect label position: side or top}
+      % prec/eff label position
+      {precondition/effect label position: above lines or on their side}
       {height of node}
     }
 ```
@@ -62,22 +62,24 @@ Note that often several actions might share several attributes such as precondit
 }
 ```
 
+Note that here you could also specify any arguments that you want to apply to all actions, such as different widths, or fill coloring. For example, by simply appending `minimum width=2cm` to change our default width.
+
 Then, when defining our action schema, each action uses this pre-defined style so that we have to define shared properties only once. In our example, all precondition lengths are 1cm and all effects have length 14 cm. Also, all preconditions/effects occur on the left/right of all actions (rather than above/below) and, finally, all actions have a height of 6 cm. Based on this factored out `STYLE`, we define our actions as follows:
 
 ```latex
 \tikzset{
- PICKUP/.style n args ={1}{STYLE={3}{4}{gF,onT(#1),clr(#1)}
-                                       {$\neg$gF,gH(#1),$\neg$clr(#1),$\neg$onT(#1)}
-                                       {pickup(#1)}},
- PUTDOWN/.style n args ={1}{STYLE={1}{4}{gH(#1)} # of precs/effs; then precs
-                                        {gF,$\neg$gH(#1),onT(#1),clr(#1)}
-                                        {putdown(#1)}},
- STACK/.style n args ={2}{STYLE={2}{5}{gH(#1),clr(#2)} # of precs/effs; then precs
-                                      {gF,$\neg$gH(#1),onT{(#1,#2)},clr(#1),$\neg$clr(#2)}
-                                      {stack{(#1,#2)}}},
- UNSTACK/.style n args ={2}{STYLE={3}{5}{gF,clr(#2),on(#1)}
-                                        {$\neg$gF,gH{(#1)},$\neg$on(#1),$\neg$clr(#1),clr(#1)}
-                                        {unstack{(#1,#2)}}}
+ PICKUP/.style n args  = {1}{STYLE={3}{4}{gF,onT(#1),clr(#1)}
+                                         {$\neg$gF,gH(#1),$\neg$clr(#1),$\neg$onT(#1)}
+                                         {pickup(#1)}},
+ PUTDOWN/.style n args = {1}{STYLE={1}{4}{gH(#1)} # of precs/effs; then precs
+                                         {gF,$\neg$gH(#1),onT(#1),clr(#1)}
+                                         {putdown(#1)}},
+ STACK/.style n args   = {2}{STYLE={2}{5}{gH(#1),clr(#2)} # of precs/effs; then precs
+                                         {gF,$\neg$gH(#1),onT{(#1,#2)},clr(#1),$\neg$clr(#2)}
+                                         {stack{(#1,#2)}}},
+ UNSTACK/.style n args = {2}{STYLE={3}{5}{gF,clr(#2),on(#1)}
+                                         {$\neg$gF,gH{(#1)},$\neg$on(#1),$\neg$clr(#1),clr(#1)}
+                                         {unstack{(#1,#2)}}}
 }
 ```
 
@@ -88,15 +90,23 @@ In the example above, the preconditions and effects have the following meaning:
 - onT: the respective block sits directly on the table
 - on: one block (first argument) sits on the other block (second argument)
 
+Note that you can also set action schema-specific properties, just like we have done above (with the minimum width) for *all* action schemata. You do this simply by adding the respective property to the respective action schema definition. Just make sure to add it after loading the action macro. For example, to fill all pickup actions in red, specify provide the following definition:
+
+```latex
+PICKUP/.style n args = {1}{STYLE={3}{4}{gF,onT(#1),clr(#1)}
+                                       {$\neg$gF,gH(#1),$\neg$clr(#1),$\neg$onT(#1)}
+                                       {pickup(#1)},fill=red},
+```
+
 Finally, note that we provide a pre-defined way to define the initial state and goal description. 
 
 ```latex
 INIT/.style={
-    init={
-        {number of effects},
-        {effects},
-        {effects length},
-        {height of init}}}
+  init={
+    {number of effects},
+    {effects},
+    {effects length},
+    {height of init}}}
 GOAL/.style={
   goal={
     {number of preconditions},
@@ -151,7 +161,13 @@ A plan is a simple tikzgraphic, with the difference that we now offer two specia
 \end{tikzpicture}
 ```
 
-You can see, among others, that the `stack` schema is drawn twice, once with arguments `A` and `B` and once with arguments `D` and `C`.
+You can see, among others, that the `stack` schema is drawn twice, once with arguments `A` and `B` and once with arguments `D` and `C`. Also, just like you were able to specify action schema-specific properties, you can also do that per search node. For example, although above both `stack` nodes would show all the same properties, you could, for example, define the following:
+
+```latex
+    \node[STACK={D}{C},fill=red]   (stackDC)   [right=3.5cm of pickupD]   {};
+```
+
+which would only fill that specific stack action in red, but not any others.
 
 The plan is then depicted as follows:
 
