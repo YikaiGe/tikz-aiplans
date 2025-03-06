@@ -134,7 +134,7 @@ In our Blocksworld example, it would look as follows:
 
 ## Specify your Plan 
 
-A plan is a simple tikzgraphic, with the difference that we now offer two special labels:
+A plan is a simple tikz graphic, with the difference that we now offer two special labels:
 - nodes can use the predefined schemata (to be instantiated as seen in the example)
 - draw commands feature a causal link command, which draw dots on the two anchors of the respective link
 
@@ -180,4 +180,4 @@ The plan is then depicted as follows:
 
 ![The created plan from our example](example-blocksworld.png)
 
-We also provide our example directly in compilable code.
+We also provide our example directly in compilable code in the repository linked on the project page.
