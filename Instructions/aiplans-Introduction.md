@@ -1,3 +1,10 @@
+
+<!-- to compile:
+pandoc aiplans-Introduction.md -o aiplans-Introduction.pdf \
+  --pdf-engine=xelatex \
+  -V geometry:"margin=2cm"
+-->
+
 # Instructions for Generating TikZ Diagrams Using LaTeX
 
 You will need the following files:
@@ -12,15 +19,15 @@ You will need the following files:
 
 Create a `main.tex` file that includes the domain file (such as `blocksworld_domain.tex`) and the specific plan file(s) (such as `blocksworld_plan.tex` in our example).
 
-     ```latex
-     \documentclass[border=1in]{standalone}
-     \usepackage{tikz}
-     \usetikzlibrary{aiplans}
-     \begin{document}
-     \input{domain}  % Action schema specification
-     \input{plan}    % The plan to display
-     \end{document}
-     ```
+```latex
+\documentclass[border=1in]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{aiplans}
+\begin{document}
+\input{domain}  % Action schema specification
+\input{plan}    % The plan to display
+\end{document}
+```
 
 ## Define Action Model -- aka the Domain
 
