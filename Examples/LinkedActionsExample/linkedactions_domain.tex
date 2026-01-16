@@ -1,0 +1,15 @@
+% Define the domain with linked actions
+\tikzset{
+    STYLE/.style n args = {5}{
+        action={#1}{#2}{#3}{#4}{1.5}{1.4}{#5}{0}{1 cm}
+    }
+}
+
+\tikzset{
+    % init and goal with multiple conditions
+    INIT/.style = {init={2}{{$x_i=\top\!\!-\!\!L$},{$x_i=\bot\!\!-\!\!L$}}{1.5}{8 cm}}, 
+    GOAL/.style = {goal={4}{{$x_i=\top\!\!-\!\!R$},{$x_i=\bot\!\!-\!\!R$},{$C_1$},{$C_m$}}{1.5}{8 cm}},
+    % linked actions
+    LINKED1/.style = {STYLE={1}{1}{{$x_i=\top\!\!-\!\!L$}}{{$x_i=\top\!\!-\!\!R$}}{linked-$x_i\!=\!\top$}},
+    LINKED2/.style = {STYLE={1}{1}{{$x_i=\bot\!\!-\!\!L$}}{{$x_i=\bot\!\!-\!\!R$}}{linked-$x_i\!=\!\bot$}}
+}

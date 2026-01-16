@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+    % Create nodes
+    \node[INIT] (init) {};
+    \node[LINKED1] (linked1) [right=6cm of init] {};
+    \node[LINKED2] (linked2) [below=1cm of linked1] {};
+    \node[GOAL] (goal) [right=6cm of linked1] {};
+    
+    % Draw causal links from init to linked1
+    \draw [causalLink, bend left=20] (init-eff-1) to (linked1-pre-1);
+    
+    % Draw causal links from init to linked2
+    \draw [causalLink, bend right=10] (init-eff-2) to (linked2-pre-1);
+    
+    % Draw causal links from linked1 to goal
+    \draw [causalLink, bend left=10] (linked1-eff-1) to (goal-pre-1);
+    
+    % Draw causal links from linked2 to goal
+    \draw [causalLink, bend right=10] (linked2-eff-1) to (goal-pre-2);
+    
+    % Add vertical dots between linked actions
+    \node at ([yshift=1cm]linked1.north) {$\vdots$};
+    \node at ([yshift=-0.5cm]linked2.south) {$\vdots$};
+    \node at ([yshift=2cm,xshift=-1cm]init-eff-1.north) {$\vdots$};
+    \node at ([yshift=-1cm,xshift=-1cm]init-eff-2.south) {$\vdots$};
+    \node at ([yshift=1cm,xshift=1cm]goal-pre-1.north) {$\vdots$};
+    \node at ([yshift=-0.5cm,xshift=1cm]goal-pre-2.south) {$\vdots$};
+    \node at ([yshift=-0.5cm,xshift=1cm]goal-pre-3.south) {$\vdots$};
+\end{tikzpicture}

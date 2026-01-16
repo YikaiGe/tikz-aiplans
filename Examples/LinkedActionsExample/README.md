@@ -1,0 +1,1 @@
+This example is a redraw with out library from paper of Professor Pascal Bercher *A Closer Look at Causal Links: Complexity Results for Delete-Relaxation in Partial Order Causal Link (POCL) Planning* [figure 2](https://bercher.net/publications/2021/Bercher2021POCLComplexities.pdf).
