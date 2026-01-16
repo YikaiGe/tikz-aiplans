@@ -21,6 +21,18 @@
         mark=at position 0.9999 with {\fill circle[radius=1pt];}
       }
     }
+  },
+  causalLink/.default={},
+  % Version with label argument
+  causalLink with label/.style={
+    causalLink,
+    postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=at position 0.5 with {\node[above, font=\scriptsize] {#1};}
+      }
+    }
   }
 }
 
