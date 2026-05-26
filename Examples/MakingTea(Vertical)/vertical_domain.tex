@@ -1,0 +1,33 @@
+\tikzset{
+    VSTYLE/.style n args={3}{
+        action={#1}{#2}{#3},
+        vertical, minimum width=3.5cm, minimum height=1cm, 
+        vertical text top,
+        vertical text top shift=0.45cm,
+        prec label length={0.5cm},
+        eff label length={0.5cm},
+    },
+    VINIT/.style={
+        init vertical={water,tea bag,milk},
+        minimum width=5cm, minimum height=0.1cm, 
+        vertical text top,
+        vertical text top shift=0.45cm,
+        eff label length={0.5cm}
+    },
+    VGOAL/.style={
+        goal vertical={tea ready},
+        minimum width=5cm, minimum height=0.03cm, 
+        vertical text top,
+        vertical text top shift=0.45cm,
+        prec label length={0.5cm}
+    },
+    HEAT/.style={
+        VSTYLE={water}{hot water}{heat water}
+        },
+    STEEP/.style={
+        VSTYLE={hot water,tea bag}{steeped tea}{steep tea}
+        },
+    POUR/.style={
+        VSTYLE={{steeped tea},milk}{tea ready}{pour milk}
+        }
+}

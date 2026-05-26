@@ -1,0 +1,37 @@
+\begin{tikzpicture}
+    \node[INIT]           (init)      {};
+    \node[PICKUP={B}]     (pickupB)   [right=7cm of init, yshift=1.5cm] {};
+    \node[PICKUP={A}]     (pickupA)   [above=1cm of pickupB]  {};
+    \node[PICKUP={D}]     (pickupD)   [below=1cm of pickupB]  {};
+    \node[PICKUP={E}]     (pickupE)   [below=1cm of pickupD]  {};
+    \node[STACK={B}{C}]   (stackBC)   [right=5cm of pickupB]  {};
+    \node[STACK={A}{B}]   (stackAB)   [right=5cm of stackBC]  {};
+    \node[STACK={E}{F}]   (stackEF)   [right=5cm of pickupD]  {};
+    \node[STACK={D}{E}]   (stackDE)   [right=5cm of stackEF]  {};
+    \node[GOAL]           (goal)      [right=30cm of init]    {};
+
+    \draw [causalLink, bend left=10]     (init-eff-7)      to (pickupA-pre-2);
+    \draw [causalLink, bend left=10]     (init-eff-1)      to (pickupA-pre-1);
+    \draw [causalLink, bend left=10]     (init-eff-2)      to (pickupB-pre-2);
+    \draw [causalLink, bend left]     (init-eff-8)      to (pickupB-pre-1);
+    \draw [causalLink, bend left=10]     (init-eff-4)      to (pickupD-pre-2);
+    \draw [causalLink, bend right]     (init-eff-10)      to (pickupD-pre-1);
+    \draw [causalLink, bend left=10]     (init-eff-5)      to (pickupE-pre-2);
+    \draw [causalLink, bend right=10]     (init-eff-11)      to (pickupE-pre-1);
+    \draw [causalLink, bend left]     (pickupB-eff-1)      to (stackBC-pre-1);
+    \draw [causalLink, bend right=4]     (init-eff-9)      to (stackBC-pre-2);
+    \draw [causalLink, bend left]     (pickupB-eff-1)      to (stackBC-pre-1);
+    \draw [causalLink, bend left=10]     (pickupE-eff-1)      to (stackEF-pre-1);
+    \draw [causalLink, bend right=70]     (init-eff-12)      to (stackEF-pre-2);
+    \draw [causalLink, bend left]     (pickupB-eff-1)      to (stackBC-pre-1);
+    \draw [causalLink, bend left]     (pickupA-eff-1)      to (stackAB-pre-1);
+    \draw [causalLink, bend right]     (stackBC-eff-3)      to (stackAB-pre-2);
+    \draw [causalLink, bend left=35]     (pickupD-eff-1)      to (stackDE-pre-1);
+    \draw [causalLink, bend right]     (stackEF-eff-3)      to (stackDE-pre-2);
+    \draw [causalLink, bend left=35]     (stackAB-eff-2)      to (goal-pre-1);
+    \draw [causalLink, bend left=60]     (stackBC-eff-2)      to (goal-pre-2);
+    \draw [causalLink, bend right]     (stackDE-eff-2)      to (goal-pre-3);
+    \draw [causalLink, bend right=60]     (stackEF-eff-2)      to (goal-pre-4);
+
+
+\end{tikzpicture}

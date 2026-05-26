@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+    \node[INIT,text=white, font=\bfseries] (init) {\rotatebox{90}{init}};
+    \node[PS] (ps) [right=7cm of init] {};
+    \node[GOAL,text=white, font=\bfseries] (goal) [right=7.5cm of ps] {\rotatebox{90}{goal}};
+
+    % Left cloud: Precursors
+    \node[bigcloud] (precursors) [left=1.5cm of ps] {};
+    \node[smallcloud, font=\itshape, xshift=0.8cm] at (precursors.center) {relevant};
+    \node[font=\itshape\Large, rotate=45] at ([xshift=-1.3cm,yshift=0.5cm]precursors.center) {Precursors};
+
+    % Right cloud: Successors
+    \node[bigcloud] (successors) [right=1.8cm of ps] {};
+    \node[smallcloud, font=\itshape, xshift=-0.8cm] at (successors.center) {Atweens};
+    \node[font=\itshape\Large, rotate=-45] at ([xshift=1.3cm,yshift=0.5cm]successors.center) {Successors};
+
+    % Top cloud
+    \node[topcloud, font=\itshape] (unordered) [above=1cm of ps] {Unordered};
+
+    % Labels
+    \node[] at ([xshift=-2.2cm,yshift=-0.7cm]precursors.north) {$(iii)$};
+    \node[] at ([xshift=-1.5cm]unordered.north) {$(i)$};
+    \node[] at ([xshift=2.2cm, yshift=-0.7cm]successors.north) {$(ii)$};
+
+    \draw[causalLink, causal mark=-, bend right] (precursors) to (ps);
+    \draw[causalLink, causal mark=-, bend right] (ps) to (successors);
+
+\end{tikzpicture}
+
+
+

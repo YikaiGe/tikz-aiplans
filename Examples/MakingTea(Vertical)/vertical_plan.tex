@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+    \node[VINIT]  (init)  {};
+    \node[HEAT]   (heat)  [below=4cm of init]  {};
+    \node[STEEP]  (steep) [below=4cm of heat]  {};
+    \node[POUR]   (pour)  [below=4cm of steep] {};
+    \node[VGOAL]  (goal)  [below=4cm of pour]  {};
+
+    \draw[causalLink, bend left, shorten <=15pt, shorten >=15pt] (init-eff-1)  to (heat-pre-1);
+    \draw[causalLink,bend left=70, shorten <=20pt, shorten >=20pt] (init-eff-2)  to (steep-pre-2);
+    \draw[causalLink,bend left=60, shorten <=15pt, shorten >=15pt] (init-eff-3)  to (pour-pre-2);
+    \draw[causalLink,bend left, shorten <=15pt, shorten >=15pt] (heat-eff-1)  to (steep-pre-1);
+    \draw[causalLink,bend left, shorten <=15pt, shorten >=15pt] (steep-eff-1) to (pour-pre-1);
+    \draw[causalLink,bend left, shorten <=15pt, shorten >=15pt] (pour-eff-1)  to (goal-pre-1);
+\end{tikzpicture}

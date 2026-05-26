@@ -1,0 +1,34 @@
+% Define commonly used style for action 
+\tikzset{
+    STYLE/.style n args = {3}{
+        action={#1}{#2}{#3}, 
+        minimum height=2cm,
+        minimum width=2cm
+    }
+}
+
+% Define actions
+\tikzset{
+    % init and goal:
+    INIT/.style = {
+        init={ontable(A),ontable(B),ontable(C),ontable(D),ontable(E),ontable(F),clear(A),clear(B),clear(C),clear(D),clear(E),clear(F)},
+        minimum height=8cm
+        }, 
+    GOAL/.style = {
+        goal={{on(A,B)},{on(B,C)},{on(D,E)},{on(E,F)}},
+        minimum height=8cm
+        },
+    % normal actions:
+    PICKUP/.style n args  ={1}{
+        STYLE={ontable(#1),clear(#1)}{holding(#1),$\neg$clear(#1),$\neg$ontable(#1)}{pickup(#1)}
+        },
+    PUTDOWN/.style n args ={1}{
+        STYLE={holding(#1)}{$\neg$holding(#1),ontable(#1),clear(#1)}{putdown(#1)}
+        },
+    STACK/.style n args   ={2}{
+        STYLE={holding(#1),clear(#2)}{$\neg$holding(#1),on{(#1,#2)},clear(#1),$\neg$clear(#2)}{stack{(#1,#2)}}
+        },
+    UNSTACK/.style n args ={2}{
+        STYLE={clear(#2),on(#1, #2)}{holding{(#1)},$\neg$on(#1,#2),$\neg$clear(#1),clear(#2)}{unstack{(#1,#2)}}
+        }
+}

@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+    \node[INIT,text=white, font=\bfseries] (init) {\rotatebox{90}{init}};
+    \node[A1] (a1) [right=1cm of init, yshift=3cm] {};
+    \node[A2] (a2) [below=0.5cm of a1] {};
+    \node[A3] (a3) [below=0.5cm of a2] {};
+    \node[AN] (an) [below=2cm of a3] {};
+    \node[PS] (ps) [right=4.5cm of init, yshift=0.5cm] {};
+    \node[BMU] (bmu) [right=6.5cm of a2] {};
+    \node[CMU] (cmu) [below=1cm of bmu] {};
+    \node[GOAL,text=white, font=\bfseries] (goal) [right=12cm of init] {\rotatebox{90}{goal}};
+
+    \node at ([yshift=1cm]an.north) {$\vdots$};
+    \node at ([yshift=0.5cm]bmu.north) {$\vdots$};
+    \node at ([yshift=-0.5cm]cmu.south) {$\vdots$};
+
+
+\end{tikzpicture}

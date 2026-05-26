@@ -1,0 +1,30 @@
+% Define the domain with linked actions
+\tikzset{
+    STYLE/.style n args = {3}{
+        action={#1}{#2}{\rotatebox{90}{#3}},
+        minimum height=2.1cm,
+        minimum width=0.5cm,
+        rounded corners=0,
+        fill={rgb,255:red,0; green,76; blue,0}
+    }
+}
+
+\tikzset{
+    % init and goal
+    INIT/.style = {
+        init={{$x_i=\top\!\!-\!\!L$},{$x_i=\bot\!\!-\!\!L$}}, 
+        minimum height=8cm
+        },
+    GOAL/.style = {
+        goal={{$x_i=\top\!\!-\!\!R$},{$x_i=\bot\!\!-\!\!R$},{$C_1$},{$C_m$}}, 
+        minimum height=8cm,
+        prec label lengths={,,1cm,1cm}
+        },
+    % normal actions
+    LINKED1/.style = {
+        STYLE={{$x_i=\top\!\!-\!\!L$}}{{$x_i=\top\!\!-\!\!R$}}{\textcolor{white}{linked-$x_i\!=\!\top$}}
+        },
+    LINKED2/.style = {
+        STYLE={{$x_i=\bot\!\!-\!\!L$}}{{$x_i=\bot\!\!-\!\!R$}}{\textcolor{white}{linked-$x_i\!=\!\bot$}}
+        }
+}

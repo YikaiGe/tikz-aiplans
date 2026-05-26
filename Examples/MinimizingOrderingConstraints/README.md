@@ -1,0 +1,1 @@
+This example is based on paper *POP≡POCL,right? Complexity Results for Partial Order (Causal Link) Makespan Minimization* Figure 2 <https://bercher.net/publications/2020/Bercher2020POPvsPOCL.pdf> .

@@ -1,0 +1,68 @@
+% Define commonly used style for action
+\tikzset{
+    STYLE/.style n args={3}{
+        action={#1}{#2}{#3},
+        minimum width=1cm,
+        minimum height=1cm,
+        rounded corners=0pt,
+        fill={rgb,255:red,255; green,255; blue,255}
+    }
+}
+
+\tikzset{
+    % init and goal:
+    INIT/.style = {
+        init={ , , , },
+        minimum height=8cm,
+        fill={rgb,255:red,85; green,159; blue,184}
+        },
+    GOAL/.style = {
+        goal={, , , },
+        minimum height=8cm,
+        fill={rgb,255:red,85; green,159; blue,184}
+        },
+    % normal action:
+    PS/.style = {
+        STYLE={ }{ }{$ps^*$}
+        }
+}
+
+% Cloud effect
+\tikzset{
+    bigcloud/.style={
+        cloud,
+        cloud puffs=10,
+        cloud puff arc=120,
+        aspect=2,
+        draw,
+        line width=0.8pt,
+        fill=white,
+        minimum width=5cm,
+        minimum height=4cm,
+        align=center
+    },
+    smallcloud/.style={
+        cloud,
+        cloud puffs=10,
+        cloud puff arc=120,
+        aspect=2,
+        draw,
+        line width=0.8pt,
+        fill=white,
+        minimum width=2.2cm,
+        minimum height=1.2cm,
+        align=center
+    },
+    topcloud/.style={
+        cloud,
+        cloud puffs=10,
+        cloud puff arc=120,
+        aspect=2,
+        draw,
+        line width=0.8pt,
+        fill=white,
+        minimum width=2cm,
+        minimum height=1cm,
+        align=center
+    }
+}

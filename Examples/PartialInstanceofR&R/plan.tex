@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+    \node[INIT,text=white, font=\bfseries] (init) {\rotatebox{90}{init}};
+    \node[A2] (a2) [right=2cm of init] {};
+    \node[A1] (a1) [above=1cm of a2] {};
+    \node[A3] (a3) [below=1cm of a2] {};
+    \node[P3] (p3) [right=3cm of a2] {};
+    \node[B] (b) [right=6.5cm of a1] {};
+    \node[C] (c) [right=6.5cm of a3] {};
+    \node[GOAL,text=white, font=\bfseries] (goal) [right=13cm of init] {\rotatebox{90}{goal}};
+
+    \draw [causalLink, bend right] (a1-eff-3) to (p3-pre-1);
+    \draw [causalLink, bend left]  (a2-eff-3) to (p3-pre-2);
+    \draw [causalLink, bend left] (a3-eff-3) to (p3-pre-3);
+    \draw [causalLink, bend left] (p3-eff-1) to (b-pre-1);
+    \draw [causalLink, bend right] (p3-eff-3) to (c-pre-1);
+    \draw [causalLink, bend left] (p3-eff-2) to (goal-pre-2);
+    \draw [causalLink, bend left] (b-eff-1) to (goal-pre-1);
+    \draw [causalLink, bend right] (c-eff-1) to (goal-pre-3);
+    \draw [causalLink, bend left] (init-eff-4) to (a3-pre-1);
+
+    \definecolor{crossbrown}{RGB}{85,50,20}
+    \draw[crossbrown, line width=0.5pt]
+      ([xshift=-4mm,yshift=4mm]p3.north west)
+      -- 
+      ([xshift=4mm,yshift=-4mm]p3.south east);
+
+    \draw[crossbrown, line width=0.5pt]
+      ([xshift=-4mm,yshift=-4mm]p3.south west)
+      -- 
+      ([xshift=4mm,yshift=4mm]p3.north east);
+
+\end{tikzpicture}

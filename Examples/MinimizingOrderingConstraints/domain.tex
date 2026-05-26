@@ -1,0 +1,39 @@
+% Define commonly used style for action
+\tikzset{
+    STYLE/.style n args={3}{
+        action={#1}{#2}{\textcolor{white}{#3}},
+        minimum width=1cm,
+        minimum height=1cm,
+        rounded corners=0pt,
+        fill={rgb,255:red,14; green,140; blue,175}
+    }
+}
+
+\tikzset{
+    % init and goal:
+    INIT/.style = {
+        init={},
+        minimum height=6cm},
+    GOAL/.style = {
+        goal={$p_1$,$p_2$,$p_3$,$p_4$},
+        minimum height=6cm},
+    % normal actions:
+    A0/.style = {
+        STYLE={}{$p_0$}{A0}
+        },
+    A1/.style = {
+        STYLE={$p_0$}{$p_1$,$p_2$,$p_3$}{A1}
+        },
+    A2/.style = {
+        STYLE={}{$p_1$}{A2}
+        },
+    A3/.style = {
+        STYLE={}{$p_2$}{A3}
+        },
+    A4/.style = {
+        STYLE={}{$p_3$}{A4}
+        },
+    A5/.style = {
+        STYLE={$p_1$,$p_2$,$p_3$}{$p_4$}{A5}
+        },
+}

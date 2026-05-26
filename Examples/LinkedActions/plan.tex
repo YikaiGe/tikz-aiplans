@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+    \node[INIT, text=white, font=\bfseries] (init) at (0,0) {\rotatebox{90}{init}};
+    \node[LINKED1] (linked1) [right=4cm of init, yshift=1cm] {};
+    \node[LINKED2,text=white, font=\bfseries] (linked2) [below=1cm of linked1] {};
+    \node[GOAL, text=white, font=\bfseries] (goal) at (10,0){\rotatebox{90}{goal}};
+    
+    \draw [causalLink,  bend left=20] (init-eff-1) to (linked1-pre-1);
+    \draw [causalLink, bend right=10] (init-eff-2) to (linked2-pre-1);
+    \draw [causalLink, bend left=10] (linked1-eff-1) to (goal-pre-1);
+    \draw [causalLink, bend right=10] (linked2-eff-1) to (goal-pre-2);
+    \node at ([yshift=1cm]linked1.north) {$\vdots$};
+    \node at ([yshift=-0.5cm]linked2.south) {$\vdots$};
+    \node at ([yshift=2cm,xshift=-1cm]init-eff-1.north) {$\vdots$};
+    \node at ([yshift=-1cm,xshift=-1cm]init-eff-2.south) {$\vdots$};
+    \node at ([yshift=1cm,xshift=1cm]goal-pre-1.north) {$\vdots$};
+    \node at ([yshift=-0.5cm,xshift=1cm]goal-pre-2.south) {$\vdots$};
+    \node at ([yshift=-0.5cm,xshift=1cm]goal-pre-3.south) {$\vdots$};
+\end{tikzpicture}

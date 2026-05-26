@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+    \node[INIT] (init) {};
+    \node[S1] (s1) [right=1cm of init, yshift=0.8cm] {};
+    \node[S2] (s2) [below=0.5cm of s1] {};
+    \node[W1] (w1) [right=3cm of s1] {};
+    \node[W2] (w2) [below=0.5cm of w1] {};
+    \node[GOAL] (goal) [right=8cm of init] {};
+
+    \draw [causalLink, bend left] (s1-eff-1) to (w1-pre-1);
+    \draw [causalLink, bend left] (s2-eff-1) to  (w2-pre-1);
+    \draw [causalLink, bend left] (w1-eff-2) to  (goal-pre-2);
+    \draw [causalLink, bend left] (w2-eff-2) to  (goal-pre-3);
+
+\end{tikzpicture}

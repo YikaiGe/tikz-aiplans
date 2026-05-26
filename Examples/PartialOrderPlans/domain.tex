@@ -1,0 +1,35 @@
+% Define commonly used style for action
+\tikzset{
+    STYLE/.style n args={3}{
+        action={#1}{#2}{\textcolor{white}{#3}},
+        minimum width=1cm,
+        minimum height=1cm,
+        rounded corners=0pt,
+        fill={rgb,255:red,14; green,140; blue,175}
+    }
+}
+
+\tikzset{
+    % init and goal:
+    INIT/.style = {
+        init={},
+        minimum height=3cm
+        },
+    GOAL/.style = {
+        goal={P, Q, R},
+        minimum height=3cm
+        },
+    % normal actions:
+    S1/.style = {
+        STYLE={}{W1,$\neg$P}{s1}
+        },
+    S2/.style = {
+        STYLE={}{W2,$\neg$P}{s2}
+        },
+    W1/.style = {
+        STYLE={W1}{P,Q}{w1}
+        },
+    W2/.style = {
+        STYLE={W2}{P,R}{w2}
+        }
+}

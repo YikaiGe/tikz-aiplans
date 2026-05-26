@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+    \node[INIT] (init) {};
+    \node[A0] (a0) [right=1cm of init, yshift=2cm] {};
+    \node[A1] (a1) [right=2.5cm of a0] {};
+    \node[A2] (a2) [below=0.5cm of a1] {};
+    \node[A3] (a3) [below=0.5cm of a2] {};
+    \node[A4] (a4) [below=0.5cm of a3] {};
+    \node[A5] (a5) [right=2.5cm of a1] {};
+    \node[GOAL] (goal) [right=11cm of init] {};
+
+    \draw [causalLink, bend left, causalLink with label=$<$, causal mark=-] (a0-eff-1) to (a1-pre-1);
+    \draw [causalLink, bend left, causalLink with label=$<$, causal mark=-]  (a1-eff-2) to (a5-pre-2);
+    \draw [causalLink, bend right, causalLink with label=$<$, causal mark=-] (a2-eff-1) to (a5);
+    \draw [causalLink, bend right, causalLink with label=$<$, causal mark=-] (a3-eff-1) to (a5);
+    \draw [causalLink, bend right, causalLink with label=$<$, causal mark=-] (a4-eff-1) to (a5);
+
+\end{tikzpicture}

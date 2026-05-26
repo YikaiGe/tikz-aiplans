@@ -1,0 +1,1 @@
+This example is based on paper *Eliminating Redundant Actions in Partially Ordered Plans — A Complexity Analysis* Figure 5 <https://bercher.net/publications/2019/Olz2019StepElimination.pdf> .

@@ -44,6 +44,21 @@ This project is developed by a team of students from the Australian National Uni
 - **Pascal Bercher**
 
 ### Maintainers
+*V4.0* (latest)
+- **Yikai Ge**
+
+*V3.0* (2025-03-05)
+- **Yikai Ge**
+
+*V2.0* (2024-10-21)
+- **Yikai Ge**
+- **Chen Wang**
+- **Cheng Zhou**
+- **Lujia Li**
+- **Yinyin Chen**
+- **Xinni Song**
+
+*V1.0* (2024-09-06)
 - **Yikai Ge**
 - **Chen Wang**
 - **Cheng Zhou**

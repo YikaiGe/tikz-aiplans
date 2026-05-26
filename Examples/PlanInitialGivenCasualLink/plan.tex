@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+    \node[INIT, text=white, font=\bfseries] (init) at (0,0) {\rotatebox{90}{init}};
+    \node[MIDDLE] (middle) [right=2cm of init, yshift=0.7cm] {};
+    \node[A,minimum height=0.5cm] (A) [below=0.4cm of middle] {};
+    \node[GOAL, text=white, font=\bfseries] (goal) at (5,0){\rotatebox{90}{goal}};
+    
+    \draw [causalLink,  bend left=20] (init-eff-1) to (middle-pre-1);
+    \draw [causalLink, bend left=10] (middle-eff-1) to (goal-pre-1);
+    \draw [causalLink, bend left] (A-eff-1) to (goal-pre-2);
+
+\end{tikzpicture}

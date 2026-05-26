@@ -1,13 +1,53 @@
-% Load necessary packages and styles
 \RequirePackage{tikz}
 \RequirePackage{listofitems}
 
-% Load required TikZ libraries directly
 \usetikzlibrary{calc, positioning, decorations.pathreplacing, decorations.markings}
 
-% this allows the definition of causal links, which place dots on the start and end of the link
+% Causal link endpoint mark. Default is a filled circle.
+% Place [causal mark=X] AFTER [causalLink] in the style list.
+%   causal mark=*    filled 5-pointed star
+%   causal mark=@    hollow circle
+%   causal mark=^    filled triangle
+%   causal mark={&}  filled square  (braces required around &)
+%   causal mark=-    empty (no mark drawn)
+%   default          filled circle (also restored by every causalLink)
+\def\aiplansdotmark{\fill circle[radius=1pt];}
+\tikzset{
+  causal mark/.code={%
+    \def\aiplansCMval{#1}%
+    \def\aiplansCMstar{*}%
+    \def\aiplansCMopen{@}%
+    \def\aiplansCMtri{^}%
+    \def\aiplansCMsq{&}%
+    \def\aiplansCMnone{-}%
+    \ifx\aiplansCMval\aiplansCMnone
+      \gdef\aiplansdotmark{}%
+    \else\ifx\aiplansCMval\aiplansCMstar
+      \gdef\aiplansdotmark{%
+        \fill (90:2pt)--(126:.8pt)--(162:2pt)--(198:.8pt)%
+              --(234:2pt)--(270:.8pt)--(306:2pt)--(342:.8pt)%
+              --(18:2pt)--(54:.8pt)--cycle;}%
+    \else\ifx\aiplansCMval\aiplansCMopen
+      \gdef\aiplansdotmark{\fill[white] circle[radius=2pt];\draw circle[radius=2pt];}%
+    \else\ifx\aiplansCMval\aiplansCMtri
+      \def\aiplansCMplv{vertical}%
+      \ifx\aiplansplacement\aiplansCMplv
+        \gdef\aiplansdotmark{\fill (0:2.5pt)--(120:2.5pt)--(240:2.5pt)--cycle;}%
+      \else
+        \gdef\aiplansdotmark{\fill (90:2.5pt)--(210:2.5pt)--(330:2.5pt)--cycle;}%
+      \fi
+    \else\ifx\aiplansCMval\aiplansCMsq
+      \gdef\aiplansdotmark{\fill (-1.5pt,-1.5pt) rectangle (1.5pt,1.5pt);}%
+    \else
+      \gdef\aiplansdotmark{\fill circle[radius=1pt];}%
+    \fi\fi\fi\fi\fi
+  }%
+}
+
+% definition of causal links
 \tikzset{
   causalLink/.style={
+    causal mark=default,
     ->,
     shorten <= 0.15cm,
     shorten >= 0.15cm,
@@ -15,10 +55,10 @@
       decorate,
       decoration={
         markings,
-        % Not using exaxtly 0 and 1 is a hack sugested by chatGPT 
+        % Not using exaxtly 0 and 1 is a hack sugested by chatGPT
         % because otherwise for long links the goal dots are not placed
-        mark=at position 0.0001 with {\fill circle[radius=1pt];},
-        mark=at position 0.9999 with {\fill circle[radius=1pt];}
+        mark=at position 0.0001 with {\pgftransformresetnontranslations\aiplansdotmark},
+        mark=at position 0.9999 with {\pgftransformresetnontranslations\aiplansdotmark}
       }
     }
   },
@@ -36,116 +76,252 @@
   }
 }
 
-% Name of Action/.style n args={number of objects}{
-%    {action= 
-%    % number of precs/effs
-%    {num of precondition lines (on the left side of action)}
-%    {num of effect lines (on the right side of action)}
-%    % prec/eff labels
-%    {sequence of precondition labels}
-%    {sequence of effect labels}
-%    % length of precs/effs
-%    {length of preconditions}
-%    {length of effects}
-%    % action name
-%    {action name}
-%    % prec/eff label position
-%    {precondition/effect label position: side or top}
-%    {height of node}
-%  }
+
+\def\aiplansplacement{horizontal}
+\tikzset{
+  aiplans placement/.code={\gdef\aiplansplacement{#1}},
+  vertical/.style={aiplans placement=vertical},
+  horizontal/.style={aiplans placement=horizontal},
+}
+
+
+\gdef\aiplansLblSide{0}
+\gdef\aiplansVtextmode{0}
+\gdef\aiplansVtopshift{3pt}
+\tikzset{
+  label side/.code={\gdef\aiplansLblSide{1}},
+  vertical text/.code={\gdef\aiplansVtextmode{1}},
+  vertical text right/.style={vertical text},
+  vertical text left/.code={\gdef\aiplansVtextmode{2}},
+  vertical text top/.code={\gdef\aiplansVtextmode{3}},
+  vertical text top shift/.code={\gdef\aiplansVtopshift{#1}},
+  aiplans reset label side/.code={%
+    \gdef\aiplansLblSide{0}%
+    \gdef\aiplansVtextmode{0}%
+    \gdef\aiplansVtopshift{3pt}%
+    \gdef\aiplansprelblperline{}%
+    \gdef\aiplansefflblperline{}%
+  },
+}
+\tikzset{
+  aiplans hright opts/.style={inner sep=1pt, /utils/exec={\ifnum\aiplansLblSide=1\tikzset{pos=1,right}\else\tikzset{midway,above,sloped}\fi}},
+  aiplans hleft opts/.style={inner sep=1pt, /utils/exec={\ifnum\aiplansLblSide=1\tikzset{pos=1,left}\else\tikzset{midway,above,sloped}\fi}},
+  aiplans vup opts/.style={inner sep=1pt, /utils/exec={%
+    \ifnum\aiplansLblSide=1\tikzset{pos=1}\else\tikzset{midway}\fi
+    \ifnum\aiplansVtextmode=1\tikzset{rotate=-90,anchor=south}%
+    \else\ifnum\aiplansVtextmode=2\tikzset{rotate=90,anchor=south}%
+    \else\ifnum\aiplansVtextmode=3\tikzset{anchor=base,yshift=\aiplansVtopshift}%
+    \else\tikzset{anchor=west}%
+    \fi\fi\fi}},
+  aiplans vdown opts/.style={inner sep=1pt, /utils/exec={%
+    \ifnum\aiplansLblSide=1\tikzset{pos=1}\else\tikzset{midway}\fi
+    \ifnum\aiplansVtextmode=1\tikzset{rotate=-90,anchor=south}%
+    \else\ifnum\aiplansVtextmode=2\tikzset{rotate=90,anchor=south}%
+    \else\ifnum\aiplansVtextmode=3\tikzset{anchor=base,yshift=-\aiplansVtopshift}%
+    \else\tikzset{anchor=west}%
+    \fi\fi\fi}},
+}
+
+
+\newdimen\aiplanslblmax
+\newdimen\aiplanslbltmp
+\newdimen\aiplanscoordtmp
+
+\font\aiplansmeasurefont=cmr7 at 7pt
+\def\aiplansprelblovr{0pt}
+\def\aiplansefflblovr{0pt}
+\tikzset{
+  prec label length/.code={\gdef\aiplansprelblovr{#1}},
+  eff label length/.code={\gdef\aiplansefflblovr{#1}},
+}
+
+\gdef\aiplansprelblperline{}
+\gdef\aiplansefflblperline{}
+\tikzset{
+  prec label lengths/.code={\gdef\aiplansprelblperline{#1}},
+  eff label lengths/.code={\gdef\aiplansefflblperline{#1}},
+}
+
+
+\def\aiplanssetupperline#1{%
+  \def\aiplanstmpplA{#1}%
+  \ifx\aiplanstmpplA\empty
+    \gdef\aiplansperlinect{0}%
+  \else
+    \setsepchar{,}%
+    \readlist\aiplanslenlist{#1}%
+    \xdef\aiplansperlinect{\aiplanslenlistlen}%
+  \fi
+}
+
+
+\def\aiplansgetperlen#1#2{%
+  \xdef\aiplanslinelen{#2}%
+  \ifnum\aiplansperlinect>0
+    \ifnum#1>\aiplansperlinect\else
+      \edef\aiplansperlineval{\aiplanslenlist[#1]}%
+      \def\aiplansperlinemty{}%
+      \ifx\aiplansperlineval\aiplansperlinemty\else
+        \xdef\aiplanslinelen{\aiplansperlineval}%
+      \fi
+    \fi
+  \fi
+}
+
+\def\aiplanscomputelen#1#2{%
+  \global\aiplanslblmax=0pt
+  \foreach \aiplansLi in {1,...,#1} {%
+    \setbox0=\hbox{\aiplansmeasurefont\labellist[\aiplansLi]}%
+    \global\aiplanslbltmp=\wd0\relax
+    \ifdim\aiplanslbltmp>\aiplanslblmax
+      \global\aiplanslblmax=\aiplanslbltmp\relax
+    \fi
+  }%
+  \xdef\aiplansautolblraw{\the\aiplanslblmax}%
+  \global\aiplanslbltmp=#2\relax
+  \ifdim\aiplanslbltmp>0pt
+    \xdef\aiplansautolen{\the\aiplanslbltmp}%
+  \else
+    \global\advance\aiplanslblmax by 0.3cm\relax
+    \xdef\aiplansautolen{\the\aiplanslblmax}%
+  \fi
+}
+
+\def\aiplanscomputecoord#1#2{%
+  \xdef#2{#1}%
+}
+
+% action={prec_labels}{eff_labels}{name}
+%  Block size: minimum width=<w> (default 3cm), minimum height=<h>.
+%  Label counts are auto-detected from the comma-separated lists.
+%  Line lengths auto-sized; override with [prec label length=<dim>] / [eff label length=<dim>].
+%  Placement: [horizontal] (default) precs left, effs right; [vertical] precs top, effs bottom.
+%  Label side: [label side] places labels at line tips (precs left, effs right).
 
 \tikzset{
-    action/.style n args={9}{
+    action/.style n args={3}{
+        aiplans placement=horizontal,
+        aiplans reset label side,
         draw,
         rounded corners,
         minimum width=3cm,
         fill=cyan,
-        minimum height={#9},
-        label={center:#7},
-        append after command={
-            \pgfextra{
-                % Define the node name
-                \edef\nodename{\tikzlastnode}
-                \ifx#3\empty % Check if label list is empty
-                \else % Process only if not empty
-                    % Read the label content
-                    \setsepchar{,}
-                    \readlist\nameparts{\nodename}
-                    \setsepchar{,}
-                    
-                    \ifnum#8=0\relax
-                    % Define positions for preconditions and effects relative to the node with shifts
-                        \ifnum#1>0
-                        \readlist\labellist{#3}
-                        \foreach \i in {1,...,#1} {
-                            % Precondition coordinates and lines
-                            \coordinate (\nodename-pre-\i) at ([xshift=-#5cm, yshift=#9/2-#9/(#1+1)*(\i)] \nodename.west);
-                            \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [midway, above, sloped, font=\scriptsize] {\labellist[\i]};
-                        }
-                        \fi;
-                        \readlist\labellist{#4}
-                        \ifnum#2>0
-                        \foreach \j in {1,...,#2} {
-                            % Effect coordinates and lines
-                            \coordinate (\nodename-eff-\j) at ([xshift=#6cm, yshift=#9/2-#9/(#2+1)*(\j)] \nodename.east);
-                            \draw (\nodename.east |- \nodename-eff-\j) -- +(#6,0) node [midway, above, sloped, font=\scriptsize] {\labellist[\j]};
-                        }
-                        \fi;
-                    \else
-                        \ifnum#1>0
-                        \readlist\labellist{#3}
-                        \foreach \i in {1,...,#1} {
-                            % Precondition coordinates and lines
-                            \coordinate (\nodename-pre-\i) at ([xshift=-#5cm, yshift=#9/2-#9/(#1+1)*(\i)] \nodename.west);
-                            \draw (\nodename.west |- \nodename-pre-\i) -- +(-#5,0) node [xshift=-(#5+0.5cm), sloped, font=\scriptsize]{\labellist[\i]};
-                        }
-                        \fi;
-                        \readlist\labellist{#4}
-                        \ifnum#2>0
-                        \foreach \j in {1,...,#2} {
-                            % Effect coordinates and lines
-                            \coordinate (\nodename-eff-\j) at ([xshift=#6 cm, yshift=#9/2-#9/(#2+1)*(\j)] \nodename.east);
-                            \draw (\nodename.east |- \nodename-eff-\j) -- +(#6,0) node [xshift=(#5+0.5 cm), font=\scriptsize] {\labellist[\j]};
-                        }
-                        \fi;
-                    \fi;
-                \fi;
-            }
-        },
-        label content/.initial={#3}
-    }
-}
-
-% INIT/.style={
-%     init={
-%         {number of effects},
-%         {effects},
-%         {effects length},
-%         {height of init}}}
-
-% GOAL/.style={
-%   goal={
-%     {number of preconditions},
-%     {preconditions},
-%     {preconditions length},
-%     {height of goal}}}
-
-\tikzset{
-    base/.style n args={6}{
-        draw,
-        minimum width=0.05cm,
-        fill=black,
-        minimum height={#6},
+        label={center:#3},
         append after command={
             \pgfextra{
                 \edef\nodename{\tikzlastnode}
                 \setsepchar{,}
-                \readlist\labellist{#2}
-                \foreach \i in {1,...,#1} {
-                    \coordinate (\nodename-#5-\i) at ([xshift=#3 cm, yshift=#6/2-#6/(#1+1)*(\i)] \nodename.#4);
-                    \draw (\nodename.#4 |- \nodename-#5-\i) -- +(#3,0)
-                        node [midway, above, sloped, font=\scriptsize] {\labellist[\i]};
+                \def\aiplansplacementvert{vertical}
+                \ifx\aiplansplacement\aiplansplacementvert
+                % Vertical mode
+                    \def\aiplanstmparg{#1}\ifx\aiplanstmparg\empty\else
+                    \readlist\labellist{#1}
+                    \aiplanscomputelen{\labellistlen}{\aiplansprelblovr}
+                    \edef\aiplansprelen{\aiplansautolen}
+                    \expandafter\aiplanssetupperline\expandafter{\aiplansprelblperline}%
+                    \foreach \i in {1,...,\labellistlen} {
+                        \aiplansgetperlen{\i}{\aiplansprelen}%
+                        \coordinate (\nodename-pre-\i) at ([yshift=\aiplanslinelen] $(\nodename.north west)!\i/(\labellistlen+1)!(\nodename.north east)$);
+                        \draw (\nodename.north -| \nodename-pre-\i) -- +(0,\aiplanslinelen) node [font=\scriptsize, aiplans vup opts] {\labellist[\i]};
+                    }
+                    \fi
+                    \def\aiplanstmparg{#2}\ifx\aiplanstmparg\empty\else
+                    \readlist\labellist{#2}
+                    \aiplanscomputelen{\labellistlen}{\aiplansefflblovr}
+                    \edef\aiplansefflen{\aiplansautolen}
+                    \expandafter\aiplanssetupperline\expandafter{\aiplansefflblperline}%
+                    \foreach \j in {1,...,\labellistlen} {
+                        \aiplansgetperlen{\j}{\aiplansefflen}%
+                        \coordinate (\nodename-eff-\j) at ([yshift=-\aiplanslinelen] $(\nodename.south west)!\j/(\labellistlen+1)!(\nodename.south east)$);
+                        \draw (\nodename.south -| \nodename-eff-\j) -- +(0,-\aiplanslinelen) node [font=\scriptsize, aiplans vdown opts] {\labellist[\j]};
+                    }
+                    \fi
+                \else
+                % Horizontal mode (default)
+                    \def\aiplanstmparg{#1}\ifx\aiplanstmparg\empty\else
+                    \readlist\labellist{#1}
+                    \aiplanscomputelen{\labellistlen}{\aiplansprelblovr}
+                    \edef\aiplansprelen{\aiplansautolen}
+                    \aiplanscomputecoord\aiplansprelen\aiplansprecoord
+                    \expandafter\aiplanssetupperline\expandafter{\aiplansprelblperline}%
+                    \foreach \i in {1,...,\labellistlen} {
+                        \aiplansgetperlen{\i}{\aiplansprelen}%
+                        \coordinate (\nodename-pre-\i) at ([xshift=-\aiplanslinelen] $(\nodename.north west)!\i/(\labellistlen+1)!(\nodename.south west)$);
+                        \draw (\nodename.west |- \nodename-pre-\i) -- +(-\aiplanslinelen,0) node [font=\scriptsize, aiplans hleft opts] {\labellist[\i]};
+                    }
+                    \fi
+                    \def\aiplanstmparg{#2}\ifx\aiplanstmparg\empty\else
+                    \readlist\labellist{#2}
+                    \aiplanscomputelen{\labellistlen}{\aiplansefflblovr}
+                    \edef\aiplansefflen{\aiplansautolen}
+                    \aiplanscomputecoord\aiplansefflen\aiplansefcoord
+                    \expandafter\aiplanssetupperline\expandafter{\aiplansefflblperline}%
+                    \foreach \j in {1,...,\labellistlen} {
+                        \aiplansgetperlen{\j}{\aiplansefflen}%
+                        \coordinate (\nodename-eff-\j) at ([xshift=\aiplanslinelen] $(\nodename.north east)!\j/(\labellistlen+1)!(\nodename.south east)$);
+                        \draw (\nodename.east |- \nodename-eff-\j) -- +(\aiplanslinelen,0) node [font=\scriptsize, aiplans hright opts] {\labellist[\j]};
+                    }
+                    \fi
+                \fi
+            }
+        }
+    }
+}
+
+% init vertical={labels}
+% goal vertical={labels}
+
+\tikzset{
+    init vertical/.style n args={1}{
+        draw,
+        minimum width=3cm,
+        minimum height=0.05cm,
+        fill=black,
+        aiplans reset label side,
+        append after command={
+            \pgfextra{
+                \edef\nodename{\tikzlastnode}
+                \setsepchar{,}
+                \def\aiplanstmparg{#1}\ifx\aiplanstmparg\empty\else
+                \readlist\labellist{#1}
+                \aiplanscomputelen{\labellistlen}{\aiplansefflblovr}
+                \edef\aiplansinitlen{\aiplansautolen}
+                \expandafter\aiplanssetupperline\expandafter{\aiplansefflblperline}%
+                \foreach \j in {1,...,\labellistlen} {
+                    \aiplansgetperlen{\j}{\aiplansinitlen}%
+                    \coordinate (\nodename-eff-\j) at ([yshift=-\aiplanslinelen] $(\nodename.south west)!\j/(\labellistlen+1)!(\nodename.south east)$);
+                    \draw (\nodename.south -| \nodename-eff-\j) -- +(0,-\aiplanslinelen)
+                        node [font=\scriptsize, aiplans vdown opts] {\labellist[\j]};
                 }
+                \fi
+            }
+        }
+    }
+}
+
+\tikzset{
+    goal vertical/.style n args={1}{
+        draw,
+        minimum width=3cm,
+        minimum height=0.05cm,
+        fill=black,
+        aiplans reset label side,
+        append after command={
+            \pgfextra{
+                \edef\nodename{\tikzlastnode}
+                \setsepchar{,}
+                \def\aiplanstmparg{#1}\ifx\aiplanstmparg\empty\else
+                \readlist\labellist{#1}
+                \aiplanscomputelen{\labellistlen}{\aiplansprelblovr}
+                \edef\aiplansgoallen{\aiplansautolen}
+                \expandafter\aiplanssetupperline\expandafter{\aiplansprelblperline}%
+                \foreach \i in {1,...,\labellistlen} {
+                    \aiplansgetperlen{\i}{\aiplansgoallen}%
+                    \coordinate (\nodename-pre-\i) at ([yshift=\aiplanslinelen] $(\nodename.north west)!\i/(\labellistlen+1)!(\nodename.north east)$);
+                    \draw (\nodename.north -| \nodename-pre-\i) -- +(0,\aiplanslinelen)
+                        node [font=\scriptsize, aiplans vup opts] {\labellist[\i]};
+                }
+                \fi
             }
         }
     }
@@ -153,15 +329,59 @@
 
 
 \tikzset{
-    % Init style
-    init/.style n args={4}{
-        base={#1}{#2}{#3}{east}{eff}{#4}
+    init/.style n args={1}{
+        draw,
+        minimum width=0.05cm,
+        minimum height=8cm,
+        fill=black,
+        aiplans reset label side,
+        append after command={
+            \pgfextra{
+                \edef\nodename{\tikzlastnode}
+                \setsepchar{,}
+                \def\aiplanstmparg{#1}\ifx\aiplanstmparg\empty\else
+                \readlist\labellist{#1}
+                \aiplanscomputelen{\labellistlen}{\aiplansefflblovr}
+                \edef\aiplansinitlen{\aiplansautolen}
+                \aiplanscomputecoord\aiplansinitlen\aiplansinitcoord
+                \expandafter\aiplanssetupperline\expandafter{\aiplansefflblperline}%
+                \foreach \i in {1,...,\labellistlen} {
+                    \aiplansgetperlen{\i}{\aiplansinitlen}%
+                    \coordinate (\nodename-eff-\i) at ([xshift=\aiplanslinelen] $(\nodename.north east)!\i/(\labellistlen+1)!(\nodename.south east)$);
+                    \draw (\nodename.east |- \nodename-eff-\i) -- +(\aiplanslinelen,0)
+                        node [font=\scriptsize, aiplans hright opts] {\labellist[\i]};
+                }
+                \fi
+            }
+        }
     }
 }
 
 \tikzset{
-    % Goal style
-    goal/.style n args={4}{
-        base={#1}{#2}{-#3}{west}{pre}{#4}
+    goal/.style n args={1}{
+        draw,
+        minimum width=0.05cm,
+        minimum height=8cm,
+        fill=black,
+        aiplans reset label side,
+        append after command={
+            \pgfextra{
+                \edef\nodename{\tikzlastnode}
+                \setsepchar{,}
+                \def\aiplanstmparg{#1}\ifx\aiplanstmparg\empty\else
+                \readlist\labellist{#1}
+                \aiplanscomputelen{\labellistlen}{\aiplansprelblovr}
+                \edef\aiplansgoallen{\aiplansautolen}
+                \aiplanscomputecoord\aiplansgoallen\aiplansgoalcoord
+                \expandafter\aiplanssetupperline\expandafter{\aiplansprelblperline}%
+                \foreach \i in {1,...,\labellistlen} {
+                    \aiplansgetperlen{\i}{\aiplansgoallen}%
+                    \coordinate (\nodename-pre-\i) at ([xshift=-\aiplanslinelen] $(\nodename.north west)!\i/(\labellistlen+1)!(\nodename.south west)$);
+                    \draw (\nodename.west |- \nodename-pre-\i) -- +(-\aiplanslinelen,0)
+                        node [font=\scriptsize, aiplans hleft opts] {\labellist[\i]};
+                }
+                \fi
+            }
+        }
     }
 }

@@ -1,0 +1,30 @@
+% Define commonly used style for action
+\tikzset{
+    STYLE/.style n args = {3}{
+        action={#1}{#2}{#3},
+        minimum height=1.5cm,
+        minimum width=0.5cm,
+        rounded corners=0,
+        fill={rgb,255:red,0; green,76; blue,0}
+    }
+}
+
+\tikzset{
+    % init and goal:
+    INIT/.style = {
+        init={L,c}, 
+        minimum height=4cm
+        },
+    GOAL/.style = {
+        goal={R,a}, 
+        minimum height=4cm
+        },
+    % normal actions:
+    A/.style = {
+        STYLE={b}{a}{\textcolor{white}{A}}
+        },
+    MIDDLE/.style = {
+        STYLE={L}{R}{\rotatebox{90}{\textcolor{white}{middle}}}
+        }
+}
+
